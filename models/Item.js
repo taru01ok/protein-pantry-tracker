@@ -30,6 +30,10 @@ const itemSchema = new mongoose.Schema({
     required: true,
     default: 2
   },
+  proteinGrams: {
+    type: Number,
+    default: 0
+  },
   createdAt: {
     type: Date,
     default: Date.now
