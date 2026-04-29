@@ -1,6 +1,7 @@
 const express = require('express');
 const Item = require('../models/Item');
 const auth = require('../middleware/auth');
+const Anthropic = require('@anthropic-ai/sdk');
 
 const router = express.Router();
 
@@ -102,5 +103,24 @@ router.delete('/:id', auth, async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+// POST /items/recipes - AI recipe generation
+router.post('/recipes', auth, async (req, res) => {
+    try {
+      const { ingredients, filter } = req.body;
+      const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+      const message = await client.messages.create({
+        model: 'claude-opus-4-5',
+        max_tokens: 1024,
+        messages: [{
+          role: 'user',
+          content: `I have these protein ingredients: ${ingredients}. Suggest 3 ${filter} recipes using these ingredients. For each recipe give: name, estimated protein content, prep time, and 4-5 simple steps. Format nicely with emojis.`
+        }]
+      });
+      res.json({ recipe: message.content[0].text });
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  });
 
 module.exports = router;
