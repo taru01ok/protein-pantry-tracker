@@ -35,7 +35,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"username\": \"taruni\",\n  \"password\": \"tisatopper1\"\n}",
+          "raw": "{\n  \"username\": \"testuser123\",\n  \"password\": \"testpass123\"\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -43,12 +43,10 @@
           }
         },
         "url": {
-          "raw": "http://localhost:3000/auth/register",
-          "protocol": "http",
+          "raw": "{{baseUrl}}/auth/register",
           "host": [
-            "localhost"
+            "{{baseUrl}}"
           ],
-          "port": "3000",
           "path": [
             "auth",
             "register"
